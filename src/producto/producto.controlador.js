@@ -60,13 +60,26 @@ function actualizar(req, res) {
 
   const result = buscarId(id);
   if(result === null) {
-    return res.status(404).json(result);
+    return res.status(404).json("No existe el Elemento en la BD");
   }
-  return res.status(200).json(result);
+  datoActualizar.id = result.id;
+  PRODUCT[PRODUCT.indexOf(result)]=datoActualizar;
+  return res.status(200).json(datoActualizar);
 }
 
 function eliminar(req, res) {
-  //tu logica
+  const id = req.params.id;
+  const result = buscarId(id);
+  if(result === null) {
+    return res.status(404).json("No existe el Elemento en la BD");
+  }
+  const pos = PRODUCT.indexOf(result);
+  try {
+    PRODUCT.splice(pos,1);
+    return res.status(200).json(true);
+  } catch (error) {
+    return res.status(400).json(false);
+  }
 }
 
 module.exports = {
