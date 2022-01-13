@@ -1,5 +1,7 @@
 'use strict'
 
+const modelo = require('./producto.modelo');
+
 const PRODUCT = [
   { id: 1, nombre: 'coco cola', precio: 13, vencimiento: null },
   { id: 2, nombre: 'fanta', precio: 13, vencimiento: null },
@@ -7,14 +9,15 @@ const PRODUCT = [
 ];
 
 function getProducto(req, res) {
-  if(req.query.nombre) {
-    const result = buscar(req.query);
-    if(result === null) {
-      return res.status(404).json(result);
-    }
-    return res.status(200).json(result);
-  }
-  return res.status(200).json(PRODUCT);
+  // if(req.query.nombre) {
+  //   const result = buscar(req.query);
+  //   if(result === null) {
+  //     return res.status(404).json(result);
+  //   }
+  //   return res.status(200).json(result);
+  // }
+  // return res.status(200).json(PRODUCT);
+  return res.status(200).json(modelo.retonarTodo());
 }
 function buscar(dato){
   let save = null;
@@ -48,10 +51,9 @@ function getById(req, res) {
 }
 
 function guardarProducto(req, res) {
-  let producto_guardar = req.body;
-  console.log(req.body);
-  PRODUCT.push(producto_guardar);
-  return res.status(200).json(producto_guardar);
+  const producto_guardar = req.body;
+  //const respuesta = modelo.guardar(producto_guardar);
+  return res.status(200).json(modelo.guardar(producto_guardar));
 }
 
 function actualizar(req, res) {
