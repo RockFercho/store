@@ -9,7 +9,7 @@ let productoEsquema = new Esquema({
   precio: Number,
   vencimiento: {type: Date}
 }, {
-  versionKey: true
+  versionKey: false
 });
 
 module.exports = {

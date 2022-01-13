@@ -8,7 +8,7 @@ const PRODUCT = [
   { id: 3, nombre: 'macarron', precio: 13, vencimiento: null }
 ];
 
-function getProducto(req, res) {
+async function getProducto(req, res) {
   // if(req.query.nombre) {
   //   const result = buscar(req.query);
   //   if(result === null) {
@@ -17,7 +17,7 @@ function getProducto(req, res) {
   //   return res.status(200).json(result);
   // }
   // return res.status(200).json(PRODUCT);
-  return res.status(200).json(modelo.retonarTodo());
+  return res.status(200).json(await modelo.retonarTodo());
 }
 function buscar(dato){
   let save = null;
@@ -50,10 +50,10 @@ function getById(req, res) {
   return res.status(200).json(result);
 }
 
-function guardarProducto(req, res) {
+async function guardarProducto(req, res) {
   const producto_guardar = req.body;
   //const respuesta = modelo.guardar(producto_guardar);
-  return res.status(200).json(modelo.guardar(producto_guardar));
+  return res.status(200).json(await modelo.guardar(producto_guardar));
 }
 
 function actualizar(req, res) {

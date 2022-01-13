@@ -15,7 +15,7 @@ function eliminar (id) {
 }
 
 function retonarTodo() {
-  return productoDB.obtenerTodo;
+  return productoDB.obtenerTodo();
 }
 
 function retornarId(id) {
