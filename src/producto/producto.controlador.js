@@ -19,35 +19,19 @@ async function getProducto(req, res) {
   // return res.status(200).json(PRODUCT);
   return res.status(200).json(await modelo.retonarTodo());
 }
-function buscar(dato){
-  let save = null;
-  PRODUCT.forEach(function (producto) {
-    if(producto.nombre == dato.nombre) {
-      save = producto;
-    }
-  });
-  
-  return save;
-}
 
-function buscarId(id){
-  let save = null;
-  PRODUCT.forEach(function (producto) {
-    if(producto.id == id) {
-      save = producto;
+async function getById(req, res) {
+  try {
+    const id = req.params.id;
+    const result = await modelo.retornarId(id);
+    console.log('result ----->', result);
+    if(result === null) {
+      return res.status(404).json(result);
     }
-  });
-  
-  return save;
-}
-
-function getById(req, res) {
-  const id = req.params.id;
-  const result = buscarId(id);
-  if(result === null) {
-    return res.status(404).json(result);
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(404).json('Nose encontro ningun resultado para el id');
   }
-  return res.status(200).json(result);
 }
 
 async function guardarProducto(req, res) {
@@ -56,31 +40,34 @@ async function guardarProducto(req, res) {
   return res.status(200).json(await modelo.guardar(producto_guardar));
 }
 
-function actualizar(req, res) {
-  const id = req.params.id;
-  const datoActualizar = req.body;
-
-  const result = buscarId(id);
-  if(result === null) {
-    return res.status(404).json("No existe el Elemento en la BD");
+async function actualizar(req, res) {
+  try {
+    const id = req.params.id;
+    const datoActualizar = req.body;
+  
+    const result = modelo.retornarId(id);
+    if(result === null) {
+      return res.status(404).json("No existe el Elemento en la BD");
+    }
+    const resu =  await modelo.actualizar(id, datoActualizar);
+    if(resu.ok===1){
+      return res.status(200).json(datoActualizar);
+    }
+    return res.status(400).json("No se actualizo el producto");
+  } catch (error) {
+    return res.status(404).json('No se encontro ningun documento con el Id');
   }
-  datoActualizar.id = result.id;
-  PRODUCT[PRODUCT.indexOf(result)]=datoActualizar;
-  return res.status(200).json(datoActualizar);
 }
 
-function eliminar(req, res) {
-  const id = req.params.id;
-  const result = buscarId(id);
-  if(result === null) {
-    return res.status(404).json("No existe el Elemento en la BD");
-  }
-  const pos = PRODUCT.indexOf(result);
+async function eliminar(req, res) {
   try {
-    PRODUCT.splice(pos,1);
-    return res.status(200).json(true);
+    const id = req.params.id;
+    const result = modelo.retornarId(id);
+  
+    const resu = await modelo.eliminar(id);
+    return res.status(200).json(resu);
   } catch (error) {
-    return res.status(400).json(false);
+    return res.status(404).json("No se encontro el elemento");
   }
 }
 
