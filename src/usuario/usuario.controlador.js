@@ -2,12 +2,6 @@
 
 const modelo = require('./usuario.modelo');
 
-const USER = [
-  { id: 1, nombre: 'pepito', apellido: 'perez', contrasena: 'pp123' },
-  { id: 2, nombre: 'hugo', apellido: 'zurita', contrasena: 'hz123' },
-  { id: 3, nombre: 'maria', apellido: 'campos', contrasena: 'mc123' }
-];
-
 async function getUsuario(req, res) {
   
   return res.status(200).json(await modelo.retonarTodo());
@@ -23,6 +17,7 @@ async function getById(req, res) {
     }
     return res.status(200).json(result);
   } catch (error) {
+    console.log('errorrrrrr6666', error);
     return res.status(404).json('Nose encontro ningun resultado para el id usuario');
   }
 }

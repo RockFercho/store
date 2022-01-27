@@ -1,12 +1,7 @@
 'use strict'
 
 const modelo = require('./producto.modelo');
-
-const PRODUCT = [
-  { id: 1, nombre: 'coco cola', precio: 13, vencimiento: null },
-  { id: 2, nombre: 'fanta', precio: 13, vencimiento: null },
-  { id: 3, nombre: 'macarron', precio: 13, vencimiento: null }
-];
+const contructorError = require('../comunes/error-contructor');
 
 async function getProducto(req, res) {
   // if(req.query.nombre) {
@@ -23,21 +18,20 @@ async function getProducto(req, res) {
 async function getById(req, res) {
   try {
     const id = req.params.id;
-    const result = await modelo.retornarId(id);
-    console.log('result ----->', result);
-    if(result === null) {
-      return res.status(404).json(result);
-    }
+    const result = await modelo.retornarId(id);    
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(404).json('Nose encontro ningun resultado para el id');
+    return res.status(error.status).json(error.body);
   }
 }
 
 async function guardarProducto(req, res) {
-  const producto_guardar = req.body;
-  //const respuesta = modelo.guardar(producto_guardar);
-  return res.status(200).json(await modelo.guardar(producto_guardar));
+  try {
+    const producto_guardar = req.body;
+    return res.status(200).json(await modelo.guardar(producto_guardar));
+  } catch(error) {
+    return res.status(error.status).json(error.body);
+  }
 }
 
 async function actualizar(req, res) {
@@ -45,17 +39,12 @@ async function actualizar(req, res) {
     const id = req.params.id;
     const datoActualizar = req.body;
   
-    const result = modelo.retornarId(id);
-    if(result === null) {
-      return res.status(404).json("No existe el Elemento en la BD");
-    }
-    const resu =  await modelo.actualizar(id, datoActualizar);
-    if(resu.ok===1){
-      return res.status(200).json(datoActualizar);
-    }
-    return res.status(400).json("No se actualizo el producto");
+    await modelo.retornarId(id);
+    
+    await modelo.actualizar(id, datoActualizar);
+    return res.status(200).json(datoActualizar);
   } catch (error) {
-    return res.status(404).json('No se encontro ningun documento con el Id');
+    return res.status(error.status).json(error.body);
   }
 }
 
