@@ -4,15 +4,14 @@ const mongoose = require('mongoose');
 
 let Esquema = mongoose.Schema;
 
-let usuarioEsquema = new Esquema({
+let productoEsquema = new Esquema({
   nombre: String,
-  apellido: String,
-  codigo: String,
-  password: String
+  precio: Number,
+  vencimiento: {type: Date}
 }, {
   versionKey: false
 });
 
 module.exports = {
-  usuarioEsquema
+  productoEsquema
 }
