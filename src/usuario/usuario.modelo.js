@@ -18,6 +18,10 @@ function retonarTodo() {
   return usuarioDB.obtenerTodo();
 }
 
+function buscarPorCodigo(codigo) {
+  return usuarioDB.buscarPorCodigo(codigo);
+}
+
 function retornarId(id) {
   return usuarioDB.obtenerPorId(id);
 }
@@ -27,5 +31,6 @@ module.exports = {
   actualizar,
   eliminar,
   retonarTodo,
-  retornarId
+  retornarId,
+  buscarPorCodigo
 }
