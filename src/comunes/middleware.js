@@ -28,7 +28,7 @@ function encrypt(res, request, next) {
 
 function validarToken(res, request, next) {
   try {
-    const token = request.res.query.token;
+    const token = request.req.query.token;
     jwt.verify(token, KEY);
     next();
   } catch(error) {
