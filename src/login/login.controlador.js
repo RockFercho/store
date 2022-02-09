@@ -1,7 +1,11 @@
 'use strinct';
 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const modelUsario = require('../usuario/usuario.modelo');
+const model = require('./login.modelo');
+
+const { KEY, DATO } = require('../configuracion/global');
 
 async function iniciaSecion(req, res) {
   try {
@@ -12,8 +16,14 @@ async function iniciaSecion(req, res) {
 
     if(resultado.length > 0) {
       const r = await bcrypt.compareSync(password, resultado[0].password);
-      if (r)
-      return res.status(200).json('OK');
+      if (r) {
+        let token = jwt.sign(
+          { dato: DATO },
+          KEY
+        );
+        let ress = await model.guardar({ token });
+        return res.status(200).json(ress);
+      }
       else 
       return res.status(404).json('La contrasena es incorrecta');
     } else {

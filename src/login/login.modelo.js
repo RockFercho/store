@@ -1,25 +1,29 @@
 'use strict'
 
-const productoDB = require('./producto.db');
+const tokenDB = require('./login.db');
 
 function guardar(dato) {
-  return productoDB.guardar(dato);
+  return tokenDB.guardar(dato);
 }
 
 function actualizar(id, dato) {
-  return productoDB.actualizar(id, dato);
+  return tokenDB.actualizar(id, dato);
 }
 
 function eliminar (id) {
-  return productoDB.eliminar(id);
+  return tokenDB.eliminar(id);
 }
 
 function retonarTodo() {
-  return productoDB.obtenerTodo();
+  return tokenDB.obtenerTodo();
 }
 
 function retornarId(id) {
-  return productoDB.obtenerPorId(id);
+  return tokenDB.obtenerPorId(id);
+}
+
+function retornarToken(token) {
+  return tokenDB.retornarToken(token);
 }
 
 module.exports = {
@@ -27,5 +31,6 @@ module.exports = {
   actualizar,
   eliminar,
   retonarTodo,
-  retornarId
+  retornarId,
+  retornarToken
 }

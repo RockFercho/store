@@ -1,18 +1,18 @@
 'use strict'
 
 const mongoose = require('mongoose');
-const esquema = require('./producto.esquema');
+const esquema = require('./login.esquema');
 const constructorError = require('../comunes/error-contructor');
 
-const DOCUMENTO = 'producto';
+const DOCUMENTO = 'token';
 const MONGOOSE = 'mongoose';
 
 
-let producto = mongoose.model(DOCUMENTO, esquema.productoEsquema);
+let token = mongoose.model(DOCUMENTO, esquema.tokenEsquema);
 
 async function guardar(dato) {
   try {
-    return await producto.create(dato);
+    return await token.create(dato);
   } catch(error) {
     throw constructorError.constructor(MONGOOSE, error);
   }
@@ -20,7 +20,7 @@ async function guardar(dato) {
 
 async function actualizar(id, dato) {
   try {
-    const resu = await producto.replaceOne({ _id: id}, dato);
+    const resu = await token.replaceOne({ _id: id}, dato);
     if(resu.ok===1){
       return resu;
     }
@@ -36,7 +36,7 @@ async function actualizar(id, dato) {
 
 async function eliminar(id) {
   try {
-    return await producto.findOneAndDelete({ _id: id });
+    return await token.findOneAndDelete({ _id: id });
   } catch (error) {
     throw constructorError.constructor(MONGOOSE, error);
   }
@@ -44,7 +44,7 @@ async function eliminar(id) {
 
 async function obtenerTodo() {
   try {
-    return await producto.find({});
+    return await token.find({});
   } catch (error) {
     throw constructorError.constructor(MONGOOSE, error);
   }
@@ -52,7 +52,7 @@ async function obtenerTodo() {
 
 async function obtenerPorId(id) {
   try {
-    const res = await producto.findById(id);
+    const res = await token.findById(id);
     return res;
   } catch (error) {
     throw constructorError.constructor(MONGOOSE, 
@@ -63,10 +63,19 @@ async function obtenerPorId(id) {
   }
 }
 
+async function obtenerToken(token) {
+  try {
+    return await token.find({ token });
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   guardar,
   actualizar,
   eliminar,
   obtenerPorId,
-  obtenerTodo
+  obtenerTodo,
+  obtenerToken
 }

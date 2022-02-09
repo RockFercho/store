@@ -4,14 +4,12 @@ const mongoose = require('mongoose');
 
 let Esquema = mongoose.Schema;
 
-let productoEsquema = new Esquema({
-  nombre: String,
-  precio: Number,
-  vencimiento: {type: Date}
+let tokenEsquema = new Esquema({
+  token: String
 }, {
   versionKey: false
 });
 
 module.exports = {
-  productoEsquema
+  tokenEsquema
 }

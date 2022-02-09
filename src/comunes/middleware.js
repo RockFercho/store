@@ -1,6 +1,8 @@
 'use strict';
 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { KEY } = require('../configuracion/global');
 
 const SALT_ROUNDS = 12;
 const METHOD = ['PUT', 'POST'];
@@ -24,6 +26,17 @@ function encrypt(res, request, next) {
   next();
 }
 
+function validarToken(res, request, next) {
+  try {
+    const token = request.res.query.token;
+    jwt.verify(token, KEY);
+    next();
+  } catch(error) {
+    return res.res.status(401).json(error)
+  }
+}
+
 module.exports = {
-  encrypt
+  encrypt,
+  validarToken
 }
