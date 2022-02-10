@@ -63,9 +63,9 @@ async function obtenerPorId(id) {
   }
 }
 
-async function obtenerToken(token) {
+async function obtenerToken(dato) {
   try {
-    return await token.find({ token });
+    return await token.find({ token: dato });
   } catch (error) {
     throw error;
   }

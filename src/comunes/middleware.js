@@ -3,10 +3,14 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { KEY } = require('../configuracion/global');
+const modelLogin = require('../login/login.modelo');
+const errorConstructor = require('../comunes/error-contructor');
 
 const SALT_ROUNDS = 12;
 const METHOD = ['PUT', 'POST'];
 const PASSWORD = 'password';
+const NO_TOKEN = 'no token';
+const TOKEN_INVALIDO = 'token invalido';
 
 function buscarValor(array, cadena) {
   return array.find( valor => valor === cadena);
@@ -26,13 +30,35 @@ function encrypt(res, request, next) {
   next();
 }
 
-function validarToken(res, request, next) {
+async function validarToken(res, request, next) {
   try {
     const token = request.req.query.token;
     jwt.verify(token, KEY);
+    const getToken = await modelLogin.retornarToken(token);
+    if (getToken.length === 0) {
+      throw errorConstructor.constructor(
+        NO_TOKEN,
+        {
+          name: 'unauthorized',
+          message: 'El token no existe en la base de datos'
+        }
+      )
+    } 
     next();
   } catch(error) {
-    return res.res.status(401).json(error)
+    console
+    if(error.status) {
+      return res.res.status(error.status).json(error.body)
+    } else {
+      const newError = errorConstructor.constructor(
+        TOKEN_INVALIDO,
+        {
+          name: 'unauthorized',
+          message: 'El token enviado no es valido'
+        }
+      );
+      return res.res.status(newError.status).json(newError.body);
+    }
   }
 }
 

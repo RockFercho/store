@@ -12,6 +12,20 @@ let constructor = (nombreError, error) => {
         message: error[0].message
       }
       break;
+    case 'token invalido' : 
+      status = 401;
+      body = {
+        name: error.name,
+        message: error.message
+      }
+      break;
+    case 'no token' : 
+      status = 401;
+      body = {
+        name: error.name,
+        message: error.message
+      }
+      break;
     case 'mongoose':
       status = 400;
       body = {

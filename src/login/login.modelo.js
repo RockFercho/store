@@ -23,7 +23,7 @@ function retornarId(id) {
 }
 
 function retornarToken(token) {
-  return tokenDB.retornarToken(token);
+  return tokenDB.obtenerToken(token);
 }
 
 module.exports = {

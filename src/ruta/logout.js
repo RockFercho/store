@@ -1,17 +1,12 @@
 const express = require('express');
-const producto = require('../producto/producto.controlador');
-const middleware = require('../producto/producto.middleware');
+const logout = require('../logout/logout.controlador');
+
 
 const ROUTER = express.Router();
 
 ROUTER
-  .get('/', producto.getProducto)
-  .get('/:id', producto.getById)
-  .put('/:id', producto.actualizar)
-  .delete('/:id', producto.eliminar)
   .post('/',
-    middleware.esquemadeValidacionGuardar, 
-    producto.guardarProducto
+    logout.eliminarToken
   );
 
 module.exports = ROUTER;

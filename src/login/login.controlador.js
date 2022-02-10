@@ -21,8 +21,8 @@ async function iniciaSecion(req, res) {
           { dato: DATO },
           KEY
         );
-        let ress = await model.guardar({ token });
-        return res.status(200).json(ress);
+        await model.guardar({ token });
+        return res.status(200).json(token);
       }
       else 
       return res.status(404).json('La contrasena es incorrecta');
