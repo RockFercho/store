@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const { KEY } = require('../configuracion/global');
 const modelLogin = require('../login/login.modelo');
 const errorConstructor = require('../comunes/error-contructor');
-
+const compartido = require('../comunes/compartido');
 const SALT_ROUNDS = 12;
 const METHOD = ['PUT', 'POST'];
 const PASSWORD = 'password';
@@ -50,11 +50,16 @@ async function validarToken(res, request, next) {
     if(error.status) {
       return res.res.status(error.status).json(error.body)
     } else {
+      let complemento = '';
+
+      if(error.expiredAt) {
+        complemento = '. El token a expirado';
+      }
       const newError = errorConstructor.constructor(
         TOKEN_INVALIDO,
         {
           name: 'unauthorized',
-          message: 'El token enviado no es valido'
+          message: 'El token enviado no es valido' + complemento
         }
       );
       return res.res.status(newError.status).json(newError.body);

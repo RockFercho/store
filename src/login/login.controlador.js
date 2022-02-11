@@ -1,11 +1,9 @@
 'use strinct';
 
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const modelUsario = require('../usuario/usuario.modelo');
 const model = require('./login.modelo');
-
-const { KEY, DATO } = require('../configuracion/global');
+const compartido = require('../comunes/compartido');
 
 async function iniciaSecion(req, res) {
   try {
@@ -17,10 +15,7 @@ async function iniciaSecion(req, res) {
     if(resultado.length > 0) {
       const r = await bcrypt.compareSync(password, resultado[0].password);
       if (r) {
-        let token = jwt.sign(
-          { dato: DATO },
-          KEY
-        );
+        let token = compartido.generarToken();
         await model.guardar({ token });
         return res.status(200).json(token);
       }
@@ -38,8 +33,6 @@ async function iniciaSecion(req, res) {
     console.log('error*** ', error);
     return res.status(400).json(error);
   }
-
-
 
 }
 

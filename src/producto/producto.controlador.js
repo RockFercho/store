@@ -2,6 +2,7 @@
 
 const modelo = require('./producto.modelo');
 const contructorError = require('../comunes/error-contructor');
+const compartido = require('../comunes/compartido');
 
 async function getProducto(req, res) {
   // if(req.query.nombre) {
@@ -12,14 +13,20 @@ async function getProducto(req, res) {
   //   return res.status(200).json(result);
   // }
   // return res.status(200).json(PRODUCT);
-  return res.status(200).json(await modelo.retonarTodo());
+  return res.status(200).json({
+    body: await modelo.retonarTodo(),
+    token: await compartido.actualizarToken(req.query.token)
+  });
 }
 
 async function getById(req, res) {
   try {
     const id = req.params.id;
-    const result = await modelo.retornarId(id);    
-    return res.status(200).json(result);
+    const result = await modelo.retornarId(id);
+    return res.status(200).json({
+      body: result,
+      token: await compartido.actualizarToken(req.query.token)
+    });
   } catch (error) {
     return res.status(error.status).json(error.body);
   }
@@ -28,7 +35,10 @@ async function getById(req, res) {
 async function guardarProducto(req, res) {
   try {
     const producto_guardar = req.body;
-    return res.status(200).json(await modelo.guardar(producto_guardar));
+    return res.status(200).json({
+      body: await modelo.guardar(producto_guardar),
+      token: await compartido.actualizarToken(req.query.token)
+    });
   } catch(error) {
     return res.status(error.status).json(error.body);
   }
@@ -42,7 +52,10 @@ async function actualizar(req, res) {
     await modelo.retornarId(id);
     
     await modelo.actualizar(id, datoActualizar);
-    return res.status(200).json(datoActualizar);
+    return res.status(200).json({
+      body: datoActualizar,
+      token: await compartido.actualizarToken(req.query.token)
+    });
   } catch (error) {
     return res.status(error.status).json(error.body);
   }
@@ -54,7 +67,10 @@ async function eliminar(req, res) {
     const result = modelo.retornarId(id);
   
     const resu = await modelo.eliminar(id);
-    return res.status(200).json(resu);
+    return res.status(200).json({
+      body: resu,
+      token: await compartido.actualizarToken(req.query.token)
+    });
   } catch (error) {
     return res.status(404).json("No se encontro el elemento");
   }
