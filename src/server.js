@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bd = require('./configuracion/mongodb');
-const port = 8082;
+const port = process.env.PORT || 8082;
 
 bd.conectar();
 
