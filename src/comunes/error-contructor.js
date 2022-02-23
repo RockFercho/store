@@ -33,6 +33,13 @@ let constructor = (nombreError, error) => {
         message: error.message
       }
       break;
+    case 'mysql':
+        status = 400;
+        body = {
+          name: `Base de Datos - ${error.name}`,
+          message: error.message
+        }
+        break;
     case 'conflicto':
       status = 409;
       body = {

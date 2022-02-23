@@ -1,24 +1,35 @@
 'use strict'
 
-const productoDB = require('./producto.db');
+let productoDB = require('./producto.db-mysql');
 
-function guardar(dato) {
+function seleccionarBaseDatos (bd) {
+  if (bd === 'mongoose') {
+    productoDB = require('./producto.db');
+  }
+}
+
+function guardar(dato, bd) {
+  seleccionarBaseDatos(bd);
   return productoDB.guardar(dato);
 }
 
-function actualizar(id, dato) {
+function actualizar(id, dato, bd) {
+  seleccionarBaseDatos(bd);
   return productoDB.actualizar(id, dato);
 }
 
-function eliminar (id) {
+function eliminar (id, bd) {
+  seleccionarBaseDatos(bd);
   return productoDB.eliminar(id);
 }
 
-function retonarTodo() {
+function retonarTodo(bd) {
+  seleccionarBaseDatos(bd);
   return productoDB.obtenerTodo();
 }
 
-function retornarId(id) {
+function retornarId(id, bd) {
+  seleccionarBaseDatos(bd);
   return productoDB.obtenerPorId(id);
 }
 

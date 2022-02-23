@@ -17,10 +17,10 @@ const sequelize =  new Sequelize('testnode', 'appuser', 'App_User1', {
 
 
 //schema
-const User = sequelize.define('user', {
-  nombre: Sequelize.STRING,
-  cumple: Sequelize.DATE
-});
+// const User = sequelize.define('user', {
+//   nombre: Sequelize.STRING,
+//   cumple: Sequelize.DATE
+// });
 
 
 //insert data BD
@@ -35,20 +35,20 @@ const User = sequelize.define('user', {
 //   }));
 // });
 
-async function create() {
-  const userdb2 = await User.create({
-    nombre: 'fer',
-    cumple: new Date(1987, 4, 26)
-  });
+// async function create() {
+//   const userdb2 = await User.create({
+//     nombre: 'fer',
+//     cumple: new Date(1987, 4, 26)
+//   });
   
-  console.log(userdb2);
-};
+//   console.log(userdb2);
+// };
 
-create();
-
-
+// create();
 
 
-// module.exports = {
-//   sequelize
-// }
+
+
+module.exports = {
+  sequelize
+}
