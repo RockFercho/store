@@ -1,8 +1,15 @@
 'use strict'
 
-const usuarioDB = require('./usuario.db');
+let usuarioDB = require('./usuario.db-mysql');
 
-function guardar(dato) {
+function seleccionarBaseDatos (bd) {
+  if (bd === 'mongoose') {
+    productoDB = require('./usuario.db');
+  }
+}
+
+function guardar(dato, bd) {
+  seleccionarBaseDatos(bd)
   return usuarioDB.guardar(dato);
 }
 
