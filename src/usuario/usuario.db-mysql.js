@@ -23,20 +23,54 @@ async function guardar(dato) {
 }
 
 async function actualizar(id, dato) {
-  return await usuario.replaceOne({ _id: id}, dato);
+  try {
+    return await usuario.update( dato , {
+      where: {
+        id
+      }
+    });
+  } catch(error) {
+    throw error;
+  }
 }
 
 async function eliminar(id) {
-  return await usuario.findOneAndDelete({ _id: id });
+  try {
+    return await usuario.destroy({
+      where: {
+        id 
+      }
+    });
+  } catch (error) {
+    throw constructorError.constructor(MYSQL, error);
+  }
 }
 
 async function obtenerTodo() {
-  
-  return await usuario.findAll();
+  try {
+    return await usuario.findAll();
+  } catch (error) {
+    throw constructorError.constructor(MYSQL, error);
+  }
 }
 
 async function obtenerPorId(id) {
-  return await usuario.findById(id);
+  try {
+    console.log('************ id mysql', id);
+    const res = await usuario.findAll({
+      where : {
+        id
+      }
+    });
+    console.log('Obtener por ID----', res);
+    return res;
+  } catch (error) {
+    throw constructorError.constructor(MYSQL, 
+      { 
+        name: 'Base de Datos - buscar por ID', 
+        message: 'No existe el Id en la Base de Datos'
+      });
+  }
 }
 
 async function buscarPorCodigo(codigo) {
@@ -44,6 +78,23 @@ async function buscarPorCodigo(codigo) {
     return await usuario.find( { codigo: codigo } );
   } catch (error) {
     throw constructorError.constructor(MONGOOSE, error);
+  }
+}
+
+async function buscarPorCodigo(codigo) {
+  try {
+    const res = await usuario.findAll({
+      where : {
+        codigo
+      }
+    });
+    return res;
+  } catch (error) {
+    throw constructorError.constructor(MYSQL, 
+      { 
+        name: 'Base de Datos - buscar por Codigo', 
+        message: 'No existe el Codigo en la Base de Datos'
+      });
   }
 }
 

@@ -38,10 +38,8 @@ async function actualizar(req, res) {
       return res.status(404).json("No existe el Elemento en la BD");
     }
     const resu =  await modelo.actualizar(id, datoActualizar);
-    if(resu.ok===1){
-      return res.status(200).json(datoActualizar);
-    }
-    return res.status(400).json("No se actualizo el producto");
+    console.log('************* constrolador resu', resu);
+    return res.status(200).json(datoActualizar);
   } catch (error) {
     return res.status(404).json('No se encontro ningun documento con el Id');
   }
