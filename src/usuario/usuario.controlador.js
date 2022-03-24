@@ -48,10 +48,10 @@ async function actualizar(req, res) {
 async function eliminar(req, res) {
   try {
     const id = req.params.id;
-    const result = modelo.retornarId(id);
+    const result = await modelo.retornarId(id);
   
     const resu = await modelo.eliminar(id);
-    return res.status(200).json(resu);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(404).json("No se encontro el elemento");
   }

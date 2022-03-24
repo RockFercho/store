@@ -15,7 +15,14 @@ const sequelize =  new Sequelize('testnode', 'appuser', 'App_User1', {
 
 });
 
-
+async function connect() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully. Mysql. ');
+  } catch (error) {
+    console.error('Unable to connect to the database - Mysql:', error);
+  }
+}
 //schema
 // const User = sequelize.define('user', {
 //   nombre: Sequelize.STRING,
@@ -50,5 +57,6 @@ const sequelize =  new Sequelize('testnode', 'appuser', 'App_User1', {
 
 
 module.exports = {
-  sequelize
+  sequelize,
+  connect
 }

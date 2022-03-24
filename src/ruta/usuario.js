@@ -7,7 +7,10 @@ const ROUTER = express.Router();
 ROUTER
   .get('/', usuario.getUsuario)
   .get('/:id', usuario.getById)
-  .put('/:id', usuario.actualizar)
+  .put('/:id', 
+    middleware.encrypt,
+    usuario.actualizar
+  )
   .delete('/:id', usuario.eliminar)
   .post('/', 
     middleware.encrypt,
