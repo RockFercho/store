@@ -1,8 +1,15 @@
 'use strict'
 
-const tokenDB = require('./login.db');
+const tokenDB = require('./login.db-mysql');
 
-function guardar(dato) {
+function seleccionarBaseDatos (bd) {
+  if (bd === 'mongoose') {
+    tokenDB = require('./login.db');
+  }
+}
+
+function guardar(dato, db) {
+  seleccionarBaseDatos(db);
   return tokenDB.guardar(dato);
 }
 

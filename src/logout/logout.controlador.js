@@ -9,8 +9,9 @@ async function eliminarToken(req, res) {
   try {
     const token = req.body.token;
     const getToken = await modelLogin.retornarToken(token);
+    
     if(getToken.length > 0) {
-      await modelLogin.eliminar(getToken[0]._id);
+      await modelLogin.eliminar(getToken[0].id);
       return res.status(200).json(true);
     } else {
       throw errorConstructor.constructor(
