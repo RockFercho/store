@@ -7,10 +7,10 @@ const middleware = require('../comunes/middleware');
 
 function routes(app) {
   app.use('/api/producto', 
-    //middleware.validarToken, 
+    middleware.validarToken, 
     producto);
   app.use('/api/usuario', 
-    //middleware.validarToken, 
+    middleware.validarToken, 
     usuario);
   app.use('/api/login', login);
   app.use('/api/logout', logout);

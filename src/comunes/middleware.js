@@ -46,7 +46,7 @@ async function validarToken(res, request, next) {
     } 
     next();
   } catch(error) {
-    console
+    // console
     if(error.status) {
       return res.res.status(error.status).json(error.body)
     } else {
