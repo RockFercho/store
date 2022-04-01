@@ -1,6 +1,6 @@
 'use strict';
 
-const { producto } = require('./producto.esquema-mysql');
+const { venta } = require('./venta.esquema-mysql');
 const constructorError = require('../comunes/error-contructor');
 const { sequelize } = require('../configuracion/sequelize');
 
@@ -8,11 +8,11 @@ const MYSQL = 'mysql';
 
 async function guardar(dato) {
   try {
-    return await producto.create(dato);
+    return await venta.create(dato);
   } catch(error) {
     if(error.parent.code === 'ER_NO_SUCH_TABLE') {
       sequelize.sync().then(function () {
-          return producto.create(dato);
+          return venta.create(dato);
         }).then(function(userDB){
           console.log(userDB.get({
             plain: true
@@ -23,12 +23,15 @@ async function guardar(dato) {
           });
     }
     throw constructorError.constructor(MYSQL, error);
+  
   }
 }
 
+
+
 async function actualizar(id, dato) {
   try {
-    return await producto.update( dato , {
+    return await venta.update( dato , {
       where: {
         id
       }
@@ -40,7 +43,7 @@ async function actualizar(id, dato) {
 
 async function eliminar(id) {
   try {
-    return await producto.destroy({
+    return await venta.destroy({
       where: {
         id 
       }
@@ -53,7 +56,7 @@ async function eliminar(id) {
 async function obtenerTodo() {
   try {
     //Select * from producto;
-    return await producto.findAll();
+    return await venta.findAll();
   } catch (error) {
     throw constructorError.constructor(MYSQL, error);
   }
@@ -61,7 +64,7 @@ async function obtenerTodo() {
 
 async function obtenerPorId(id) {
   try {
-    const res = await producto.findAll({
+    const res = await venta.findAll({
       where : {
         id
       }
@@ -78,7 +81,7 @@ async function obtenerPorId(id) {
 
 async function obtenerPorNombre(nombre) {
   try {
-    const res = await producto.findAll({
+    const res = await venta.findAll({
       where : {
         nombre
       }
