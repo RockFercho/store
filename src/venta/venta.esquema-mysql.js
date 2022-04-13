@@ -10,8 +10,14 @@ const venta = sequelize.define('venta', {
   nit: Sequelize.STRING
 });
 
-venta.productos = venta.hasMany(producto);
-venta.usuario = venta.belongsToMany(usuario, { through: 'ventaUsuario' }); //====> usuario.ventas = usuario.hasMany(ventas)
+//--------- Usuario ---> Venta
+usuario.hasMany(venta);
+venta.belongsTo(usuario, { foreingKey: 'usuarioId' });
+
+
+//--------- Producto ---> Venta
+producto.hasMany(venta);
+venta.belongsTo(producto, { foreingKey: 'productoId' });
 
 module.exports = {
   venta

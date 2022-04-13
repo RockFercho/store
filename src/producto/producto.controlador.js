@@ -13,10 +13,16 @@ async function getProducto(req, res) {
   //   return res.status(200).json(result);
   // }
   // return res.status(200).json(PRODUCT);
-  return res.status(200).json({
-    body: await modelo.retonarTodo(),
-    token: await compartido.actualizarToken(req.query.token)
-  });
+  try {
+    
+    return res.status(200).json({
+      body: await modelo.retonarTodo(),
+      token: await compartido.actualizarToken(req.query.token)
+    });
+  } catch (error) {
+    console.log('error producto', error);
+    return res.status(error.status).json(error.body);
+  }
 }
 
 async function getById(req, res) {
