@@ -33,10 +33,16 @@ function retornarId(id, bd) {
   return productoDB.obtenerPorId(id);
 }
 
+function retornarPorNombre(nombre, bd) {
+  seleccionarBaseDatos(bd);
+  return productoDB.obtenerPorNombre(nombre);
+}
+
 module.exports = {
   guardar,
   actualizar,
   eliminar,
   retonarTodo,
-  retornarId
+  retornarId,
+  retornarPorNombre
 }

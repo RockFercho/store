@@ -5,15 +5,17 @@ const contructorError = require('../comunes/error-contructor');
 const compartido = require('../comunes/compartido');
 
 async function getProducto(req, res) {
-  // if(req.query.nombre) {
-  //   const result = buscar(req.query);
-  //   if(result === null) {
-  //     return res.status(404).json(result);
-  //   }
-  //   return res.status(200).json(result);
-  // }
-  // return res.status(200).json(PRODUCT);
   try {
+    if(req.query.nombre) {
+      const result = await modelo.retornarPorNombre(req.query.nombre);
+      if(result === null) {
+        return res.status(404).json(result);
+      }
+      return res.status(200).json({
+        body: result,
+        token: await compartido.actualizarToken(req.query.token)
+      });
+    }
     
     return res.status(200).json({
       body: await modelo.retonarTodo(),
